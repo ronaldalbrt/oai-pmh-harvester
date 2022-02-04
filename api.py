@@ -1,4 +1,6 @@
 from sickle import Sickle
+from oaipmh.client import Client
+from oaipmh.metadata import MetadataRegistry, oai_dc_reader
 from flask import Flask, json, request, jsonify, Response
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
@@ -52,21 +54,14 @@ def listRecords():
     n_records = input_data['n_records']
     records_array = []
     try:
-        sickle = Sickle(url)
-        records = sickle.ListRecords(**{
-            'metadataPrefix': prefix,
-            'from': start_date,
-            'until': end_date
-        })
-        print(records.next().header)
+        registry = MetadataRegistry()
+        registry.registerReader(prefix, oai_dc_reader)
+        client = Client(url, registry)
 
-        for record in records:
-            records_array.append({
-                'header': record.header.raw,
-                'deleted': record.deleted,
-                'raw': record.raw
-            })
-            if(len(records_array) >= n_records ):
+        for record in client.listRecords(metadataPrefix=prefix):
+            records_array.append(record[1].getMap())
+
+            if len(records_array) >= n_records:
                 break
         
         return { 
@@ -75,5 +70,5 @@ def listRecords():
             }
         }, 200
 
-    except:
+    except: 
         raise UnknownError('Erro desconhecido', status_code=500) 
