@@ -47,16 +47,16 @@ def listRecords():
     url = input_data['url']
     prefix = input_data['prefix']
 
-    start_date = input_data['from']
-    end_date = input_data['until']
     n_records = input_data['n_records']
+    set_ = input_data['set'] if 'set' in input_data else None
     records_array = []
     try:
         registry = MetadataRegistry()
         registry.registerReader(prefix, oai_dc_reader)
         client = Client(url, registry)
-
-        for record in client.listRecords(metadataPrefix=prefix):
+        
+        records = client.listRecords(metadataPrefix=prefix, set=set_) if set_ is not None else client.listRecords(metadataPrefix=prefix) 
+        for record in records:
             records_array.append(record[1].getMap())
 
             if len(records_array) >= n_records:
@@ -68,3 +68,25 @@ def listRecords():
 
     except: 
         raise UnknownError('Erro desconhecido', status_code=500) 
+
+@server.route("/listSets", methods = ['POST'])
+def listSets():
+    input_data = request.get_json()
+    url = input_data['url']
+
+    sets_array = []
+    try:
+        client = Client(url)
+
+        for set_ in client.listSets():
+            sets_array.append({
+                'id': set_[0],
+                'nome': set_[1]
+                })
+
+        return {
+            'sets': sets_array
+        }, 200
+
+    except:
+        raise UnknownError('Erro desconhecido', status_code=500)
