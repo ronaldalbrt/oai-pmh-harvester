@@ -65,9 +65,7 @@ def listRecords():
                 break
         
         return { 
-            'data': { 
                 'records':  records_array
-            }
         }, 200
 
     except: 
