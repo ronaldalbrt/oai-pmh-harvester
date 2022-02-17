@@ -1,4 +1,4 @@
-
+import '../css/MetadadataTable.css'
 const MetadataTable = (props) => {
 
     return(
@@ -6,7 +6,7 @@ const MetadataTable = (props) => {
             <tr>
                 {
                 Object.keys(props.metadata[0]).map(
-                    value => 
+                    value => value !== 'raw' &&
                         <th>{value}</th>
                     
                 )}
@@ -17,8 +17,8 @@ const MetadataTable = (props) => {
                         <tr>
                             {
                             Object.keys(value).map(
-                                key =>
-                                <td>{value[key].join("\n")}</td>
+                                key => key !=='raw' &&
+                                <td>{value[key]}</td>
                             )}
                         </tr>
                 )

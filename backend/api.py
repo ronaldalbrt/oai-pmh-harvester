@@ -35,9 +35,7 @@ def listMetadataFormats():
             })
 
         return { 
-            'data': { 
-                'formats': formats_array
-            }
+            'formats': formats_array
         }, 200
 
     except:

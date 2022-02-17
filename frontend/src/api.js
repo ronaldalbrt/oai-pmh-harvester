@@ -6,7 +6,6 @@ const api = axios.create({
 
 
 export const listRecords = (url, n_records, prefix, from, until, completion, errorOccurred) => {
-
     const request = Object({
         url,
         n_records,
@@ -19,4 +18,16 @@ export const listRecords = (url, n_records, prefix, from, until, completion, err
       }).catch(error => {
           errorOccurred(error.name)
       })
+}
+
+export const listMetadataFormats = (url, completion, errorOccurred) => {
+    const request = {
+        url
+    }
+
+    api.post('/listMetadataFormats', request).then(response => {
+        completion(response.data)
+    }).catch(error => {
+        errorOccurred(error)
+    })
 }

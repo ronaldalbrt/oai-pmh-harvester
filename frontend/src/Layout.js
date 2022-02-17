@@ -1,7 +1,7 @@
-import { listRecords } from './api';
+import { listRecords, listMetadataFormats } from './api';
 import { toast } from 'react-toastify';
 import logo from './ufrj.svg';
-import './Layout.css';
+import './css/Layout.css';
 import { useState } from 'react';
 import MetadataTable from './components/MetadataTable';
 
@@ -25,29 +25,46 @@ const Layout = (props) => {
   
     listRecords(url, n_records, prefix, from, until, completion, raiseError)
   }
+
+  const getFormats = (url) => {
+    const raiseError = (message) => {
+      const options = {
+        autoClose: false,
+        hideProgressBar: false,
+        position: toast.POSITION.TOP_RIGHT,
+      };
+      toast.error(message, options);
+    }
+  
+    const completion = (response) => {
+      console.log(response)
+      setMetadata(response.formats)
+    }
+  
+    listMetadataFormats(url, completion, raiseError)
+
+  }
   
   return(
       <div className="App">
       <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <form>
-          <label>Nome do Repositório:</label>
-          <input type="text" name="repo name" />
-          </form>
 
 
           <button onClick={() => getRecords('https://pantheon.ufrj.br/oai/request', 10, 'oai_dc', '2016-01-01', '2019-01-15')}>
-          Clica vai
+            Listar Repositórios
           </button>
 
-
-          {
-            metadata &&
-            <MetadataTable metadata={metadata}/>
-          }
-
-
+          <button onClick={() => getFormats('https://pantheon.ufrj.br/oai/request')}>
+            Listar Tipos de Metadadados
+          </button>
       </header>
+
+
+      {
+        metadata &&
+        <MetadataTable metadata={metadata}/>
+      }
       </div>
   )
 
