@@ -1,15 +1,24 @@
-import { listRecords, listMetadataFormats } from './api';
+import { listRecords, listMetadataFormats, listSets } from './api';
 import { toast } from 'react-toastify';
 import logo from './ufrj.svg';
 import './css/Layout.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MetadataTable from './components/MetadataTable';
+import Slider from '@mui/material/Slider';
 
 
 const Layout = (props) => {
   const [metadata, setMetadata] = useState(null);
+  const [numberOfRecords, setNumberOfRecords] = useState(10);
+  const [sliderValuer, setSliderValue] = useState(100);
+  const [sets, setSets] = useState(null);
+
+  const handleSliderChange = (event, newValue) => {
+    setNumberOfRecords(sliderValuer)
+    setSliderValue(newValue);
+};
   
-  const getRecords = (url, n_records, prefix, from, until) => {
+  const getRecords = (data) => {
     const raiseError = (message) => {
       const options = {
         autoClose: false,
@@ -23,7 +32,7 @@ const Layout = (props) => {
         setMetadata(response.records)
     }
   
-    listRecords(url, n_records, prefix, from, until, completion, raiseError)
+    listRecords(data, completion, raiseError)
   }
 
   const getFormats = (url) => {
@@ -37,21 +46,57 @@ const Layout = (props) => {
     }
   
     const completion = (response) => {
-      console.log(response)
       setMetadata(response.formats)
     }
   
     listMetadataFormats(url, completion, raiseError)
 
   }
+
+  const getSets = (url) => {
+    const raiseError = (message) => {
+      const options = {
+        autoClose: false,
+        hideProgressBar: false,
+        position: toast.POSITION.TOP_RIGHT,
+      };
+      toast.error(message, options);
+    }
   
+    const completion = (response) => {
+      setSets(response.sets)
+    }
+  
+    listSets(url, completion, raiseError)
+  }
+
+  useEffect(() => {
+    getSets('https://pantheon.ufrj.br/oai/request')
+  }, [])
+  
+  console.log(sets)
   return(
       <div className="App">
       <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-
-
-          <button onClick={() => getRecords('https://pantheon.ufrj.br/oai/request', 10, 'oai_dc', '2016-01-01', '2019-01-15')}>
+        <img src={logo} className="App-logo" alt="logo" />
+          <label>Quantidade de Repositórios a serem retornados</label>
+          <Slider 
+                    defaultValue={100} 
+                    step={1} 
+                    min={0} 
+                    max={500} 
+                    aria-label="Default" 
+                    valueLabelDisplay="auto" 
+                    onChange={handleSliderChange}
+                    style={{width: '200px', margin:'10px auto'}}
+          />
+          <button onClick={() => getRecords(
+            Object({
+              url:'https://pantheon.ufrj.br/oai/request', 
+              n_records: numberOfRecords,
+              prefix: 'oai_dc', 
+            }))
+          }>
             Listar Repositórios
           </button>
 

@@ -18,3 +18,11 @@
   font-size: calc(10px + 2vmin);
   color: black;
 }
+
+
+label {
+  margin-top: 1rem;
+  display: inline-block;
+  color: rgb(99, 99, 99, 1);
+  font-size: medium;
+}

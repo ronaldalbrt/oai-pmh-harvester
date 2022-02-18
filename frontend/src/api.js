@@ -5,15 +5,8 @@ const api = axios.create({
 });
 
 
-export const listRecords = (url, n_records, prefix, from, until, completion, errorOccurred) => {
-    const request = Object({
-        url,
-        n_records,
-        prefix,
-        from,
-        until
-    })
-    api.post('/listRecords', request).then(response => {
+export const listRecords = (data, completion, errorOccurred) => {
+    api.post('/listRecords', data).then(response => {
           completion(response.data)
       }).catch(error => {
           errorOccurred(error.name)
@@ -26,6 +19,18 @@ export const listMetadataFormats = (url, completion, errorOccurred) => {
     }
 
     api.post('/listMetadataFormats', request).then(response => {
+        completion(response.data)
+    }).catch(error => {
+        errorOccurred(error)
+    })
+}
+
+export const listSets = (url, completion, errorOccurred) => {
+    const request = {
+        url
+    }
+
+    api.post('/listSets', request).then(response => {
         completion(response.data)
     }).catch(error => {
         errorOccurred(error)

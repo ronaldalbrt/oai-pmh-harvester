@@ -47,7 +47,7 @@ def listRecords():
     url = input_data['url']
     prefix = input_data['prefix']
 
-    n_records = input_data['n_records']
+    n_records = input_data['n_records'] if 'n_records' in input_data else None
     set_ = input_data['set'] if 'set' in input_data else None
     records_array = []
     try:
@@ -59,7 +59,7 @@ def listRecords():
         for record in records:
             records_array.append(record[1].getMap())
 
-            if len(records_array) >= n_records:
+            if n_records is not None and len(records_array) >= n_records:
                 break
         
         return { 
