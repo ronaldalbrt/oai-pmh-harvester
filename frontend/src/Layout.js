@@ -1,9 +1,9 @@
 
+import { useState, useEffect } from 'react';
 import logo from './ufrj.svg';
 import './css/Layout.css';
 import Record from './components/Record';
 import ReactPaginate from 'react-paginate';
-import { useState } from 'react';
 
 const Layout = (props) => {
   const [offset, setOffset] = useState(0);
@@ -16,7 +16,12 @@ const Layout = (props) => {
     setOffset(newOffset);
   };
 
+  useEffect(() => {
+    if (props.records)
+      setPageCount(Math.ceil(props.records.length / perPage));
+  }, [props.records, perPage])
 
+  console.log(offset)
   return(
       <div className="App">
         { 
@@ -27,7 +32,21 @@ const Layout = (props) => {
         }
         {
           props.records &&
-          props.records.map((value, i) => <Record key={i} metadata={value}/>)
+          <>
+          {props.records.slice(offset, offset + perPage).map((value, i) => <Record key={i} metadata={value}/>)}
+          <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/>
+          </>
         }
         
         
