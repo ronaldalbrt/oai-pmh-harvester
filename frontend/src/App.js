@@ -1,5 +1,6 @@
 import Layout from './Layout';
 import Sidebar from './components/Sidebar';
+import Record from './components/Record';
 import { useState } from 'react';
 
 function App() {

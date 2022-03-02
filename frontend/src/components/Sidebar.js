@@ -154,8 +154,8 @@ const Sidebar = (props) => {
                     <label>Coleções disponíveis:</label> <br/>
                     <select name="setSelect" style={{width: '200px'}} onChange={(event) => setSelectedSet(event.target.value)}>
                     {
-                        sets.map(value => {
-                        return <option value={value['id']}>
+                        sets.map((value,index) => {
+                        return <option key={index} value={value['id']}>
                             {value['nome']}
                         </option>
                         })
@@ -174,8 +174,8 @@ const Sidebar = (props) => {
                     <label>Padrão de Metadados:</label><br/>
                     <select name="metadataSelect" style={{width: '200px'}}  defaultValue={'oai_dc'} onChange={(event) => setSelectedFormat(event.target.value)}>
                     {
-                        metadata.map(value => {
-                        return <option value={value}>
+                        metadata.map((value, index) => {
+                        return <option key={index} value={value}>
                             {value}
                         </option>
                         })
@@ -196,7 +196,7 @@ const Sidebar = (props) => {
                     set: selectedSet
                 }))
                 }>
-                Listar Repositórios
+                Listar Bases
                 </button>
             </div>
             </CDBSidebarMenuItem>
