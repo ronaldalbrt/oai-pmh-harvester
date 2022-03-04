@@ -9,7 +9,7 @@ const Record = (props) => {
     return (<>
     <div className="RecordSummary">
         <div className='container'>
-            <div className="RecordField" style={{ width:'100%'}}>
+            <div className="RecordField" style={{ width:'100%', borderBottom: 'solid 1px black'}}>
             <p className='RecordTitle'>
             {props.metadata.title[0]}    
             <AiOutlineCopy style={{ cursor: 'pointer', marginLeft:'10px'}}  onClick={() => {navigator.clipboard.writeText(JSON.stringify(props.metadata))}}/>
@@ -23,7 +23,7 @@ const Record = (props) => {
             </div>
         </div>
         <div className='container'>
-            <div className="RecordField" style={{ width:'33%'}}>
+            <div className="RecordField" style={{ width:'33%', borderBottom: 'solid 1px black', borderRight: 'solid 1px black'}}>
                 <p className='FieldTitle'>Autor(a)</p> 
                 <p className='FieldText'>
                 {
@@ -31,7 +31,7 @@ const Record = (props) => {
                 }
                 </p>
             </div>
-            <div className="RecordField" style={{ width:'33%'}}>
+            <div className="RecordField" style={{ width:'33%', borderBottom: 'solid 1px black', borderRight: 'solid 1px black'}}>
                 <p className='FieldTitle'>Co-autores(as)</p> 
                 {
                     props.metadata.contributor.map((value, index) => {
@@ -48,13 +48,13 @@ const Record = (props) => {
                     })
                 }
             </div>
-            <div className="RecordField" style={{ width:'34%'}}>
+            <div className="RecordField" style={{ width:'34%', borderBottom: 'solid 1px black'}}>
                 <p className='FieldTitle'>Tipo</p> 
                 <p className='FieldText'> {props.metadata.type[0]}</p>
             </div>
         </div>
         <div className='container'>
-            <div className="RecordField" style={{ width:'33%'}}>
+            <div className="RecordField">
             {
                     props.metadata.identifier.map((value, index) => {
 

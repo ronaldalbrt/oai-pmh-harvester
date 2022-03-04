@@ -11,7 +11,6 @@ import {
 import Slider from '@mui/material/Slider';
 import { Input } from '@mui/material';
 import { toast } from 'react-toastify';
-import Select from 'react-select'
 import { useState, useEffect } from 'react';
 import '../css/Sidebar.css';
 
@@ -100,7 +99,7 @@ const Sidebar = (props) => {
 
     return (
     <div style={{ position: 'absolute', display: 'flex', height: '100vh',overflow: 'scroll initial' }}>
-        <CDBSidebar textColor="#fff" backgroundColor="#333" >
+        <CDBSidebar textColor="#fff" backgroundColor="#333">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
             Parâmetros

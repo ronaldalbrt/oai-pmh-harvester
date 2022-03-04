@@ -21,7 +21,6 @@ const Layout = (props) => {
       setPageCount(Math.ceil(props.records.length / perPage));
   }, [props.records, perPage])
 
-  console.log(offset)
   return(
       <div className="App">
         { 
